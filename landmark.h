@@ -15,6 +15,7 @@ public:
     QString get_loadtype(){return mInfo.mLoadType;}
     QString get_machine(){return mInfo.mMachine;}
     QPair<int,int> get_pos(){return mInfo.mPos;}
+    QPair<int,int> get_size(){return mInfo.mSize;}
 
     void zoomIn();
     void zoomOut();
@@ -27,8 +28,8 @@ public:
 private:
     LandmarkInfo mInfo;
     QColor color;
-    QPair<int,int> tPos;
-    QPair<int,int> tSize;
+    QPair<double,double> tPos;
+    QPair<double,double> tSize;
 };
 
 

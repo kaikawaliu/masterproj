@@ -5,37 +5,41 @@
 
 Landmark::Landmark(LandmarkInfo &aInfo)
     : mInfo(aInfo),
-      color(Qt::green)
+      color(Qt::gray)
 {
-    tPos = mInfo.mPos;
-    tSize = mInfo.mSize;
+    tPos.first = (double)mInfo.mPos.first;
+    tPos.second = (double)mInfo.mPos.second;
+    tSize.first = (double)mInfo.mSize.first;
+    tSize.second = (double)mInfo.mSize.second;
+
     this->setZValue(2);
-    setPos(tPos.first,tPos.second);
+    setPos((int)tPos.first,(int)tPos.second);
 }
 
 QRectF Landmark::boundingRect() const
 {
     qreal adjust = 0.5;
-    return QRect(-tSize.first/2-adjust,
-                 -tSize.second/2-adjust,
-                 tSize.first+adjust,
-                 tSize.second+adjust);
+    return QRect(/*-tSize.first/2-adjust*/0,
+                 /*-tSize.second/2-adjust*/0,
+                 (int)tSize.first+adjust,
+                 (int)tSize.second+adjust);
 }
 
 QPainterPath Landmark::shape() const
 {
     QPainterPath path;
-    path.addRect(-tSize.first/2, -tSize.second/2,
-                 tSize.first, tSize.second);
+    path.addRect(/*-tSize.first/2*/0, /*-tSize.second/2*/0,
+                 (int)tSize.first, (int)tSize.second);
     return path;
 }
 
 void Landmark::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->setBrush(color);
-    painter->drawRoundedRect(-tSize.first/2,-tSize.second/2,
-                             tSize.first,tSize.second,
-                             tSize.first/2,tSize.second/2);
+    painter->setPen(color);
+    painter->setBrush(/*color*/Qt::transparent);
+    painter->drawRoundedRect(/*-tSize.first/2*/0,/*-tSize.second/2*/0,
+                             (int)tSize.first,(int)tSize.second,
+                             (int)tSize.first/2,(int)tSize.second/2);
 }
 
 void Landmark::zoomIn()
@@ -45,7 +49,7 @@ void Landmark::zoomIn()
     tSize.first *= zoomrate;
     tSize.second *= zoomrate;
 
-    setPos(tPos.first,tPos.second);
+    setPos((int)tPos.first,(int)tPos.second);
     this->update();
 }
 
@@ -56,6 +60,6 @@ void Landmark::zoomOut()
     tSize.first /= zoomrate;
     tSize.second /= zoomrate;
 
-    setPos(tPos.first,tPos.second);
+    setPos((int)tPos.first,(int)tPos.second);
     this->update();
 }

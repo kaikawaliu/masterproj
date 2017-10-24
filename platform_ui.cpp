@@ -11,7 +11,7 @@ void Platform::slot_zoom(bool zoom)
 {
     if(zoom /*&& hovered*/)
     {
-        if(0<scalelevel && scalelevel<20)
+        if(0<=scalelevel && scalelevel<200)
         {
             zoomIn();
 
@@ -19,7 +19,7 @@ void Platform::slot_zoom(bool zoom)
         }
     }else
     {
-        if(0<scalelevel && scalelevel<20)
+        if(0<scalelevel && scalelevel<=200)
         {
             zoomOut();
 

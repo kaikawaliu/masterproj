@@ -7,35 +7,38 @@ Obstacle::Obstacle(ObstacleInfo &aInfo)
     : mInfo(aInfo),
       color(Qt::gray)
 {
-    tPos = mInfo.mPos;
-    tSize = mInfo.mSize;
+    tPos.first = (double)mInfo.mPos.first;
+    tPos.second = (double)mInfo.mPos.second;
+    tSize.first = (double)mInfo.mSize.first;
+    tSize.second = (double)mInfo.mSize.second;
+
     this->setZValue(1);
-    setPos(tPos.first,tPos.second);
+    setPos((int)tPos.first,(int)tPos.second);
 }
 
 QRectF Obstacle::boundingRect() const
 {
     qreal adjust = 0.5;
-    return QRect(-tSize.first/2-adjust,
-                 -tSize.second/2-adjust,
-                 tSize.first+adjust,
-                 tSize.second+adjust);
+    return QRect(/*-tSize.first/2*/0-adjust,
+                 /*-tSize.second/2*/0-adjust,
+                 (int)tSize.first+adjust,
+                 (int)tSize.second+adjust);
 }
 
 QPainterPath Obstacle::shape() const
 {
     QPainterPath path;
-    path.addRect(-tSize.first/2, -tSize.second/2,
-                 tSize.first, tSize.second);
+    path.addRect(/*-tSize.first/2*/0, /*-tSize.second/2*/0,
+                 (int)tSize.first, (int)tSize.second);
     return path;
 }
 
 void Obstacle::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
+    painter->setPen(Qt::NoPen);
     painter->setBrush(color);
-    painter->drawRoundedRect(-tSize.first/2,-tSize.second/2,
-                             tSize.first,tSize.second,
-                             tSize.first/2,tSize.second/2);
+    painter->drawRect(/*-tSize.first/2*/0,/*-tSize.second/2*/0,
+                             (int)tSize.first,(int)tSize.second);
 }
 
 void Obstacle::zoomIn()
@@ -45,7 +48,7 @@ void Obstacle::zoomIn()
     tSize.first *= zoomrate;
     tSize.second *= zoomrate;
 
-    setPos(tPos.first,tPos.second);
+    setPos((int)tPos.first,(int)tPos.second);
     this->update();
 }
 
@@ -56,6 +59,6 @@ void Obstacle::zoomOut()
     tSize.first /= zoomrate;
     tSize.second /= zoomrate;
 
-    setPos(tPos.first,tPos.second);
+    setPos((int)tPos.first,(int)tPos.second);
     this->update();
 }

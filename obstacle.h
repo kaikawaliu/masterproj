@@ -21,8 +21,8 @@ public:
 private:
     ObstacleInfo mInfo;
     QColor color;
-    QPair<int,int> tPos;
-    QPair<int,int> tSize;
+    QPair<double,double> tPos;
+    QPair<double,double> tSize;
 };
 
 #endif // OBSTACLE_H

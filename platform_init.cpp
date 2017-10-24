@@ -72,7 +72,9 @@ void Platform::slot_link(QPair<int, int> aLink)
     Link* tLink = new Link(aLink);
     QPair<int,int> tStartPos = Landmarks[aLink.first]->get_pos();
     QPair<int,int> tEndPos = Landmarks[aLink.second]->get_pos();
-    tLink->set_pos(tStartPos, tEndPos);
+    QPair<int,int> tStartSize = Landmarks[aLink.first]->get_size();
+    QPair<int,int> tEndSize = Landmarks[aLink.first]->get_size();
+    tLink->set_pos(tStartPos, tEndPos, tStartSize, tEndSize);
     Links.insert(aLink, tLink);
     scene.addItem(Links[aLink]);
 }
