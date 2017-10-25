@@ -19,8 +19,8 @@ Landmark::Landmark(LandmarkInfo &aInfo)
 QRectF Landmark::boundingRect() const
 {
     qreal adjust = 0.5;
-    return QRect(/*-tSize.first/2-adjust*/0,
-                 /*-tSize.second/2-adjust*/0,
+    return QRect(0,
+                 0,
                  (int)tSize.first+adjust,
                  (int)tSize.second+adjust);
 }
@@ -28,7 +28,7 @@ QRectF Landmark::boundingRect() const
 QPainterPath Landmark::shape() const
 {
     QPainterPath path;
-    path.addRect(/*-tSize.first/2*/0, /*-tSize.second/2*/0,
+    path.addRect(0, 0,
                  (int)tSize.first, (int)tSize.second);
     return path;
 }
@@ -36,8 +36,8 @@ QPainterPath Landmark::shape() const
 void Landmark::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(color);
-    painter->setBrush(/*color*/Qt::transparent);
-    painter->drawRoundedRect(/*-tSize.first/2*/0,/*-tSize.second/2*/0,
+    painter->setBrush(Qt::transparent);
+    painter->drawRoundedRect(0,0,
                              (int)tSize.first,(int)tSize.second,
                              (int)tSize.first/2,(int)tSize.second/2);
 }

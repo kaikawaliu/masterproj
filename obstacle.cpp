@@ -19,8 +19,8 @@ Obstacle::Obstacle(ObstacleInfo &aInfo)
 QRectF Obstacle::boundingRect() const
 {
     qreal adjust = 0.5;
-    return QRect(/*-tSize.first/2*/0-adjust,
-                 /*-tSize.second/2*/0-adjust,
+    return QRect(0-adjust,
+                 0-adjust,
                  (int)tSize.first+adjust,
                  (int)tSize.second+adjust);
 }
@@ -28,7 +28,7 @@ QRectF Obstacle::boundingRect() const
 QPainterPath Obstacle::shape() const
 {
     QPainterPath path;
-    path.addRect(/*-tSize.first/2*/0, /*-tSize.second/2*/0,
+    path.addRect(0, 0,
                  (int)tSize.first, (int)tSize.second);
     return path;
 }
@@ -37,8 +37,8 @@ void Obstacle::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
 {
     painter->setPen(Qt::NoPen);
     painter->setBrush(color);
-    painter->drawRect(/*-tSize.first/2*/0,/*-tSize.second/2*/0,
-                             (int)tSize.first,(int)tSize.second);
+    painter->drawRect(0, 0,
+                      (int)tSize.first,(int)tSize.second);
 }
 
 void Obstacle::zoomIn()

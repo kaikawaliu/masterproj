@@ -27,8 +27,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-#    graphitems.cpp \
-#    backgrounditem.cpp \
     ipcgateway.cpp \
     fileparser.cpp \
     platform_init.cpp \
@@ -39,8 +37,6 @@ SOURCES += \
     link.cpp
 
 HEADERS += \
-#    graphitems.h \
-#    backgrounditem.h \
     platform.h \
     ipcgateway.h \
     fileparser.h \

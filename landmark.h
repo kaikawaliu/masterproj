@@ -20,6 +20,10 @@ public:
     void zoomIn();
     void zoomOut();
 
+    //for Landmark_Loadport
+    void collect();
+    void reset();
+
     //built-in virtual funcs
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
