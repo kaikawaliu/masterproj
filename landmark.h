@@ -8,7 +8,7 @@
 class Landmark : public QGraphicsItem
 {
 public:
-    Landmark(LandmarkInfo &aInfo);
+    Landmark(LandmarkInfo &aInfo, QColor aColor);
 
     int get_id(){return mInfo.mId;}
     LandmarkType get_type(){return mInfo.mType;}
@@ -16,6 +16,7 @@ public:
     QString get_machine(){return mInfo.mMachine;}
     QPair<int,int> get_pos(){return mInfo.mPos;}
     QPair<int,int> get_size(){return mInfo.mSize;}
+    QColor get_color(){return color;}
 
     void zoomIn();
     void zoomOut();
@@ -30,10 +31,13 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
 
 private:
+    QObject *mParent;
     LandmarkInfo mInfo;
-    QColor color;
+    QColor color, spColor;
     QPair<double,double> tPos;
     QPair<double,double> tSize;
+    bool collected;
+    double tFontSize = 20;
 };
 
 

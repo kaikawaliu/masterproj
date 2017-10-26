@@ -44,12 +44,16 @@ void FileParser::process_line(QByteArray line)
         if(flag=="Machine")
         {
             entryType=Machine;
-            emit sig_machine(QString(line).split(":").last());
+            QString tString = QString(line).split(":").last();
+            tString.chop(1);
+            emit sig_machine(tString);
         }
         else if(flag=="LoadType")
         {
             entryType=LoadType;
-            emit sig_loadtype(QString(line).split(":").last());
+            QString tString = QString(line).split(":").last();
+            tString.chop(1);
+            emit sig_loadtype(tString);
         }
         //multi line entry
         else if(flag=="Obstacle")
@@ -88,7 +92,9 @@ void FileParser::process_line(QByteArray line)
                 entryType==Landmark_ChargeStation||
                 entryType==Landmark_Waypoint)
         {
-            tLandInfoStr.append(QString(line));
+            QString tString(line);
+            tString.chop(1);
+            tLandInfoStr.append(/*QString(line)*/tString);
         }
         else if(entryType==Link)
         {

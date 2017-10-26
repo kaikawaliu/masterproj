@@ -53,7 +53,14 @@ void Platform::slot_obstacle(ObstacleInfo aObstacle)
 void Platform::slot_loadtype(QString aLoadType)
 {
     qDebug()<<"LoadType: "<<aLoadType;
-    LoadTypes.append(aLoadType);
+    l_LoadTypes.append(aLoadType);
+//    QColor tColor(rand()%255,rand()%255,rand()%255);
+//    gColors.append(tColor/*QColor(rand()%255,rand()%255,rand()%255)*/);
+    QList<int> tColor;
+    tColor.append(rand()%255);
+    tColor.append(rand()%255);
+    tColor.append(rand()%255);
+    l_Colors.append(tColor);
 }
 
 void Platform::slot_landmark(LandmarkInfo aLandmark)
@@ -61,7 +68,14 @@ void Platform::slot_landmark(LandmarkInfo aLandmark)
     qDebug()<<"Landmark: "<<"[Id] "<<aLandmark.mId<<
               " \n[LandmarkType] "<<aLandmark.mType<<" [LoadType] "<<aLandmark.mLoadType<<" [Machine] "<<aLandmark.mMachine<<
               " \n[Pos] "<<aLandmark.mPos<<" [Size] "<<aLandmark.mSize;
-    Landmark* tLandmark = new Landmark(aLandmark);
+    QColor spColor = Qt::gray;
+    if(aLandmark.mType==LoadPort || aLandmark.mType==ChargeStation)
+    {
+        QList<int> tColor = l_Colors[l_LoadTypes.indexOf(aLandmark.mLoadType)];
+        spColor = QColor(tColor[0], tColor[1], tColor[2]);
+    }
+
+    Landmark* tLandmark = new Landmark(aLandmark, spColor);
     Landmarks.insert(aLandmark.mId,tLandmark);
     scene.addItem(Landmarks[aLandmark.mId]);
 }

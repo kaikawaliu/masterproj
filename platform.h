@@ -19,6 +19,7 @@ class Platform : public QObject
 public:
     explicit Platform(QObject *parent = nullptr);
 
+
 signals:
 
 public slots:
@@ -46,12 +47,15 @@ private:
     int sceneWidth = 16000;
     int sceneHeight = 8000;
 
-    QList<QString> LoadTypes;
+//    QList<QString> LoadTypes;
     QList<Obstacle*> Obstacles;
     QHash<int,Landmark*> Landmarks;
     QHash<QPair<int,int>,Link*> Links;
     QList<Obstacle> tObstacles;
     QHash<QPair<int,int>,Link> tLinks;
+
+    QList<QString> l_LoadTypes;
+    QList<QList<int>> l_Colors;
 };
 
 #endif // PLATFORM_H
