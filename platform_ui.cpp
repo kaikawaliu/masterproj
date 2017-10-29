@@ -2,11 +2,6 @@
 
 #include <iterator>
 
-void Platform::slot_hovered(bool aHovered)
-{
-    hovered = aHovered;
-}
-
 void Platform::slot_zoom(bool zoom)
 {
     if(zoom /*&& hovered*/)
@@ -30,8 +25,14 @@ void Platform::slot_zoom(bool zoom)
 
 void Platform::zoomIn()
 {
+    double rateX = (double)mousePos.x()/sceneWidth;
+    double rateY = (double)mousePos.y()/sceneHeight;
+
+    //scene & hoverlayer
+    scene.zoomIn();
+    hoverlayer->zoomIn();
     //Landmark
-    for(QHash<int,Landmark*>::iterator i = Landmarks.begin(); i != Landmarks.end(); ++i)
+    for(QHash<int,Landmark*>::iterator i = Landmarks->begin(); i != Landmarks->end(); ++i)
     {
         i.value()->zoomIn();
     }
@@ -45,18 +46,28 @@ void Platform::zoomIn()
     {
         i.value()->zoomIn();
     }
-    //Machine
-    //To be continued...
+    //AGV
+    for(QHash<int,AGV*>::iterator i = AGVs.begin(); i != AGVs.end(); ++i)
+    {
+        i.value()->zoomIn();
+    }
 
     sceneWidth*=zoomrate;
     sceneHeight*=zoomrate;
-    scene.setSceneRect(0,0,sceneWidth,sceneHeight);
+
+    view.centerOn(sceneWidth*rateX,sceneHeight*rateY);
 }
 
 void Platform::zoomOut()
 {
+    double rateX = (double)mousePos.x()/sceneWidth;
+    double rateY = (double)mousePos.y()/sceneHeight;
+
+    //scene & hoverlayer
+    scene.zoomOut();
+    hoverlayer->zoomOut();
     //Landmark
-    for(QHash<int,Landmark*>::iterator i = Landmarks.begin(); i != Landmarks.end(); ++i)
+    for(QHash<int,Landmark*>::iterator i = Landmarks->begin(); i != Landmarks->end(); ++i)
     {
         i.value()->zoomOut();
     }
@@ -70,10 +81,25 @@ void Platform::zoomOut()
     {
         i.value()->zoomOut();
     }
-    //Machine
-    //To be continued...
+    //AGV
+    for(QHash<int,AGV*>::iterator i = AGVs.begin(); i != AGVs.end(); ++i)
+    {
+        i.value()->zoomOut();
+    }
 
     sceneWidth/=zoomrate;
     sceneHeight/=zoomrate;
-    scene.setSceneRect(0,0,sceneWidth,sceneHeight);
+
+    view.centerOn(sceneWidth*rateX,sceneHeight*rateY);
 }
+
+void Platform::slot_hover(QPointF aScenePos)
+{
+    mousePos = aScenePos;
+}
+
+void Platform::slot_mousepressed()
+{
+
+}
+

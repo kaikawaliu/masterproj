@@ -4,6 +4,7 @@ Platform::Platform(QObject *parent) : QObject(parent)
 {   
     setup_sigslot();
     setup_view();
+//    setup_agv();
 }
 
 void Platform::setup_sigslot()
@@ -17,14 +18,17 @@ void Platform::setup_sigslot()
     connect(&file,SIGNAL(sig_landmark(LandmarkInfo)),this,SLOT(slot_landmark(LandmarkInfo)));
     connect(&file,SIGNAL(sig_link(QPair<int,int>)),this,SLOT(slot_link(QPair<int,int>)));
 
-    connect(&view,SIGNAL(mouseHovered(bool)),this,SLOT(slot_hovered(bool)));
-    connect(&view,SIGNAL(mouseWheelZoom(bool)),this,SLOT(slot_zoom(bool)));
+    connect(&scene,SIGNAL(mouseWheelZoom(bool)),this,SLOT(slot_zoom(bool)));
+    connect(&scene,SIGNAL(mousePressed()),this,SLOT(slot_mousepressed()));
 }
 
 void Platform::setup_view()
 {
-    scene.setSceneRect(0,0,sceneWidth,sceneHeight);
-    scene.setItemIndexMethod(QGraphicsScene::NoIndex);
+    scene.init(sceneWidth,sceneHeight);
+    hoverlayer = new HoverLayer(sceneWidth,sceneHeight);
+    connect(hoverlayer,SIGNAL(sendHoverMove(QPointF)),this,SLOT(slot_hover(QPointF)));
+    scene.addItem(hoverlayer);
+    Landmarks = new QHash<int,Landmark*>;
     //setup elements
     if(!file.load_file())
         return;
@@ -35,6 +39,20 @@ void Platform::setup_view()
     view.setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Factory 8"));
     view.resize(1080,720);
     view.show();
+}
+
+void Platform::setup_agv()
+{
+    for(QHash<int,Landmark*>::iterator i = Landmarks->begin(); i != Landmarks->end(); ++i)
+    {
+        qDebug()<<"landmark"<<i.value()->get_id()<<i.value()->get_type();
+        if(i.value()->get_type()==LoadPort)
+        {
+            AGV* tAGV = new AGV(i.value()->get_id(),Landmarks);
+            AGVs.insert(i.value()->get_id(),tAGV);
+            scene.addItem(AGVs.value(i.value()->get_id()));
+        }
+    }
 }
 
 void Platform::slot_machine(QString aMachine)
@@ -54,8 +72,6 @@ void Platform::slot_loadtype(QString aLoadType)
 {
     qDebug()<<"LoadType: "<<aLoadType;
     l_LoadTypes.append(aLoadType);
-//    QColor tColor(rand()%255,rand()%255,rand()%255);
-//    gColors.append(tColor/*QColor(rand()%255,rand()%255,rand()%255)*/);
     QList<int> tColor;
     tColor.append(rand()%255);
     tColor.append(rand()%255);
@@ -76,18 +92,25 @@ void Platform::slot_landmark(LandmarkInfo aLandmark)
     }
 
     Landmark* tLandmark = new Landmark(aLandmark, spColor);
-    Landmarks.insert(aLandmark.mId,tLandmark);
-    scene.addItem(Landmarks[aLandmark.mId]);
+    Landmarks->insert(aLandmark.mId,tLandmark);
+    scene.addItem(Landmarks->value(aLandmark.mId));
+
+    if(aLandmark.mType==ChargeStation)
+    {
+        AGV* tAGV = new AGV(aLandmark.mId,Landmarks);
+        AGVs.insert(aLandmark.mId,tAGV);
+        scene.addItem(tAGV);
+    }
 }
 
 void Platform::slot_link(QPair<int, int> aLink)
 {
     qDebug()<<"Link: "<<aLink;
     Link* tLink = new Link(aLink);
-    QPair<int,int> tStartPos = Landmarks[aLink.first]->get_pos();
-    QPair<int,int> tEndPos = Landmarks[aLink.second]->get_pos();
-    QPair<int,int> tStartSize = Landmarks[aLink.first]->get_size();
-    QPair<int,int> tEndSize = Landmarks[aLink.first]->get_size();
+    QPair<int,int> tStartPos = Landmarks->value(aLink.first)->get_pos();
+    QPair<int,int> tEndPos = Landmarks->value(aLink.second)->get_pos();
+    QPair<int,int> tStartSize = Landmarks->value(aLink.first)->get_size();
+    QPair<int,int> tEndSize = Landmarks->value(aLink.first)->get_size();
     tLink->set_pos(tStartPos, tEndPos, tStartSize, tEndSize);
     Links.insert(aLink, tLink);
     scene.addItem(Links[aLink]);

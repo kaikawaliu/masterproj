@@ -5,7 +5,7 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
-Landmark::Landmark(LandmarkInfo &aInfo, QColor aColor)
+Landmark::Landmark(LandmarkInfo aInfo, QColor aColor)
     : mInfo(aInfo),
       color(Qt::gray),
       spColor(aColor)
@@ -21,11 +21,10 @@ Landmark::Landmark(LandmarkInfo &aInfo, QColor aColor)
 
 QRectF Landmark::boundingRect() const
 {
-    qreal adjust = 0.5;
     return QRect(0,
                  0,
-                 (int)tSize.first+adjust,
-                 (int)tSize.second+adjust);
+                 (int)tSize.first/*+adjust*/,
+                 (int)tSize.second/*+adjust*/);
 }
 
 QPainterPath Landmark::shape() const

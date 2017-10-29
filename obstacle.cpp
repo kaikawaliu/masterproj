@@ -18,11 +18,11 @@ Obstacle::Obstacle(ObstacleInfo &aInfo)
 
 QRectF Obstacle::boundingRect() const
 {
-    qreal adjust = 0.5;
-    return QRect(0-adjust,
-                 0-adjust,
-                 (int)tSize.first+adjust,
-                 (int)tSize.second+adjust);
+//    qreal adjust = 0.5;
+    return QRect(0/*-adjust*/,
+                 0/*-adjust*/,
+                 (int)tSize.first/*+adjust*/,
+                 (int)tSize.second/*+adjust*/);
 }
 
 QPainterPath Obstacle::shape() const

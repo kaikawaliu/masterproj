@@ -8,7 +8,7 @@
 class Landmark : public QGraphicsItem
 {
 public:
-    Landmark(LandmarkInfo &aInfo, QColor aColor);
+    Landmark(LandmarkInfo aInfo, QColor aColor);
 
     int get_id(){return mInfo.mId;}
     LandmarkType get_type(){return mInfo.mType;}
@@ -16,7 +16,9 @@ public:
     QString get_machine(){return mInfo.mMachine;}
     QPair<int,int> get_pos(){return mInfo.mPos;}
     QPair<int,int> get_size(){return mInfo.mSize;}
-    QColor get_color(){return color;}
+    QColor get_spcolor(){return spColor;}
+
+    bool occupied = false;
 
     void zoomIn();
     void zoomOut();

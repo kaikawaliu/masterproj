@@ -119,7 +119,7 @@ void FileParser::emit_prev()
     {
         LandmarkInfo tLandInfo;
         tLandInfo.mId=tLandInfoStr[0].toInt();
-        tLandInfo.mType=ChargeStation;
+        tLandInfo.mType=LoadPort;
         tLandInfo.mMachine=tLandInfoStr[1];
         tLandInfo.mLoadType=tLandInfoStr[2];
 

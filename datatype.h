@@ -4,6 +4,7 @@
 #include <QObject>
 
 #define zoomrate 1.25
+#define stepinterval 100
 
 enum LandmarkType{
     LoadPort = 1,
@@ -23,6 +24,14 @@ struct LandmarkInfo{
 struct ObstacleInfo{
     QPair<int,int> mPos;
     QPair<int,int> mSize;
+};
+
+struct Task{
+    QString mMachine;
+    int mSrcNode;
+    int mDestNode;
+    int mTime;
+    int mDontExecuteBefore;
 };
 
 #endif // DATATYPE_H

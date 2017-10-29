@@ -30,18 +30,20 @@ SOURCES += \
     ipcgateway.cpp \
     fileparser.cpp \
     platform_init.cpp \
-    diagramview.cpp \
     platform_ui.cpp \
     landmark.cpp \
     obstacle.cpp \
-    link.cpp
+    link.cpp \
+    diagramscene.cpp \
+    agv.cpp
 
 HEADERS += \
     platform.h \
     ipcgateway.h \
     fileparser.h \
     datatype.h \
-    diagramview.h \
     landmark.h \
     obstacle.h \
-    link.h
+    link.h \
+    diagramscene.h \
+    agv.h
